@@ -67,7 +67,9 @@ export function DashboardPage() {
         try {
           const uploadResult = await api.uploadImage(selectedImage)
           console.log('Upload successful:', uploadResult)
-          imageUrl = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${uploadResult.url}`
+          imageUrl = import.meta.env.PROD
+            ? uploadResult.url
+            : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${uploadResult.url}`
         } catch (uploadError) {
           console.error('Image upload failed:', uploadError)
           alert(`Failed to upload image: ${uploadError instanceof Error ? uploadError.message : 'Unknown error'}`)
